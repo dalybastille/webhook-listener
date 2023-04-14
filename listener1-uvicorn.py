@@ -4,7 +4,7 @@ from fastapi import FastAPI, Request
 app = FastAPI()
 
 # configure logging
-logging.basicConfig(filename='webhook.log', level=logging.INFO)
+logging.basicConfig(filename='/var/log/bastille/webhook.log', level=logging.INFO)
 
 @app.post('/webhook')
 async def webhook(request: Request):
