@@ -1,0 +1,11 @@
+[Unit]
+Description=Webhook service
+
+[Service]
+User=parallels
+WorkingDirectory=/home/parallels/python
+ExecStart=/usr/bin/python3 /home/parallels/python/listener1-uvicorn.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
