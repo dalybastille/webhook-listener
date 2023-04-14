@@ -1,6 +1,6 @@
 # webhook-listener
 
-mv webhook.serice to /etc/systemd/system/
+mv webhook.service to /etc/systemd/system/
 
 Run the following:
 
