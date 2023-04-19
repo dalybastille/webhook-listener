@@ -18,9 +18,13 @@ logging.basicConfig(filename='/var/log/bastille/webhook.log', level=logging.INFO
 
 @app.post('/webhook')
 async def webhook(request: Request):
-    content = await request.json()
-    logging.info('Webhook received with payload: %s', content)
-    return {'message': 'OK'}
+    try:
+        content = await request.json()
+        logging.info('Webhook received with payload: %s', content)
+        return {'message': 'OK'}
+    except json.JSONDecodeError as e:
+        # return error response for unparsable JSON
+        return {'error': f'Unable to parse JSON: {str(e)}'}, 400
 
 if __name__ == '__main__':
     import uvicorn
