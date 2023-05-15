@@ -38,6 +38,7 @@ async def webhook(request: Request, gather_headers: str = Header(None)):
 
   except json.JSONDecodeError as e:
     # return error response for unparsable JSON
+    logging.info('JSON errored with: %s', {str(e)})
     return {'error': f'Unable to parse JSON: {str(e)}'}, 400
 
 if __name__ == '__main__':
