@@ -22,7 +22,7 @@ ssl_certfile = config.get('webhook', 'ssl_certfile')
 logging.basicConfig(filename='/var/log/bastille/webhook.log', level=logging.INFO)
 
 @app.post('/webhook')
-async def webhook(request: Request, user_agent: str = Header(None)):
+async def webhook(request: Request, gather_headers: str = Header(None)):
   try:
     # Get all headers
     headers = dict(request.headers)
