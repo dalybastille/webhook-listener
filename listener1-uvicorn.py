@@ -1,6 +1,11 @@
 import configparser
 import logging
 from fastapi import FastAPI, Request
+from fastapi import FastAPI, Header
+import datetime
+
+date=datetime.datetime.now()
+
 
 app = FastAPI()
 
@@ -17,14 +22,22 @@ ssl_certfile = config.get('webhook', 'ssl_certfile')
 logging.basicConfig(filename='/var/log/bastille/webhook.log', level=logging.INFO)
 
 @app.post('/webhook')
-async def webhook(request: Request):
-    try:
-        content = await request.json()
-        logging.info('Webhook received with payload: %s', content)
-        return {'message': 'OK'}
-    except json.JSONDecodeError as e:
-        # return error response for unparsable JSON
-        return {'error': f'Unable to parse JSON: {str(e)}'}, 400
+async def webhook(request: Request, user_agent: str = Header(None)):
+  try:
+    # Get all headers
+    headers = dict(request.headers)
+
+    # Retrieve the JSON payload
+    content = await request.json()
+
+    logging.info('Webhook received at %s', date)
+    logging.info('Header info: %s', headers)
+    logging.info('JSON payload: %s', content)
+    return {'message': 'OK'}
+
+  except json.JSONDecodeError as e:
+    # return error response for unparsable JSON
+    return {'error': f'Unable to parse JSON: {str(e)}'}, 400
 
 if __name__ == '__main__':
     import uvicorn
